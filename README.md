@@ -8,3 +8,6 @@ O1 - classes, objects, methods
 06 - Regular Expressions
 07 - Concurrency 
 07 - Generics
+
+As of now the Code flow is something like this: 
+The User Enter for nominees on President and vice President, then proceed to voting which is just 1 and 2, then after that the vote is stored...
