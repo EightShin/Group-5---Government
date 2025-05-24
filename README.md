@@ -9,5 +9,17 @@ O1 - classes, objects, methods
 07 - Concurrency 
 07 - Generics
 
-As of now the Code flow is something like this: 
-The User Enter for nominees on President and vice President, then proceed to voting which is just 1 and 2, then after that the vote is stored...
+Programs Code Flow:
+1. Start Program
+    ・Enter 2 names for presidents/vice Presidents
+2. Choosing Voting Mode
+    ・Option:
+    Manual Voting: voters manually input their votes.
+    Simulated Voting: randomly casting votes.
+3. Manual Voting Mode
+    ・Program loops 5 times for 5 voters.
+    after voting the votes are stored in "VoteCounter".
+4. Simulated Voting Mode
+    ・User input how many voters is going to be simulated.
+    ・then randomly cast votes on both category which is president/vice president.
+5. Vote Counting and Display
