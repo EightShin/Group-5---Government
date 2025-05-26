@@ -1,5 +1,11 @@
-public class President extends Candidate {
+public class President implements Candidate {
+    private String name;
+
     public President(String name) {
-        super(name);
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }

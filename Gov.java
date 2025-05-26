@@ -1,85 +1,88 @@
+import java.util.Random;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Gov {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        Pattern namePattern = Pattern.compile("^[A-Za-z ]+$");
 
         // Create President candidates
-        President[] presidents = new President[2];
+        President[] presidentArray = new President[2];
         System.out.println("=== Enter President Candidates ===");
         for (int i = 0; i < 2; i++) {
-            System.out.print("President " + (i + 1) + ": ");
-            String name = scanner.nextLine();
-            presidents[i] = new President(name);
+            String name;
+            while (true) {
+                System.out.print("President " + (i + 1) + ": ");
+                name = scanner.nextLine();
+                if (namePattern.matcher(name).matches()) break;
+                System.out.println("Invalid name. Please enter letters only.");
+            }
+            presidentArray[i] = new President(name);
         }
 
         // Create Vice President candidates
-        VicePresident[] vicePresidents = new VicePresident[2];
+        VicePresident[] vpArray = new VicePresident[2];
         System.out.println("\n=== Enter Vice President Candidates ===");
         for (int i = 0; i < 2; i++) {
-            System.out.print("Vice President " + (i + 1) + ": ");
-            String name = scanner.nextLine();
-            vicePresidents[i] = new VicePresident(name);
+            String name;
+            while (true) {
+                System.out.print("Vice President " + (i + 1) + ": ");
+                name = scanner.nextLine();
+                if (namePattern.matcher(name).matches()) break;
+                System.out.println("Invalid name. Please enter letters only.");
+            }
+            vpArray[i] = new VicePresident(name);
         }
+
+        CandidateList<President> presidents = new CandidateList<>(presidentArray);
+        CandidateList<VicePresident> vicePresidents = new CandidateList<>(vpArray);
 
         VoteCounter voteCounter = new VoteCounter();
 
-        System.out.println("\nChoose Voting Mode:");
+        // Voting Mode
+        System.out.println("\n=== Voting Mode ===");
         System.out.println("1. Manual Voting");
         System.out.println("2. Simulated Voting");
-        System.out.print("Enter choice (1 or 2): ");
-        int choice = scanner.nextInt();
-        scanner.nextLine();  // consume newline
+        System.out.print("Choose an option: ");
+        int mode = scanner.nextInt();
 
-        if (choice == 1) {
-            // Manual Voting for 5 voters
-            int totalVoters = 5;
-            for (int voter = 1; voter <= totalVoters; voter++) {
-                System.out.println("\nVoter #" + voter);
+        if (mode == 1) {
+            for (int i = 0; i < 5; i++) {
+                System.out.println("\nVoter #" + (i + 1));
 
                 System.out.println("Vote for President:");
-                for (int i = 0; i < presidents.length; i++) {
-                    System.out.println((i + 1) + ". " + presidents[i].getName());
+                for (int j = 0; j < presidents.size(); j++) {
+                    System.out.println((j + 1) + ". " + presidents.get(j).getName());
                 }
                 System.out.print("Enter number (1 or 2): ");
                 int votePresident = scanner.nextInt();
 
-                System.out.println("Vote for Vice President:");
-                for (int i = 0; i < vicePresidents.length; i++) {
-                    System.out.println((i + 1) + ". " + vicePresidents[i].getName());
+                System.out.println("\nVote for Vice President:");
+                for (int j = 0; j < vicePresidents.size(); j++) {
+                    System.out.println((j + 1) + ". " + vicePresidents.get(j).getName());
                 }
                 System.out.print("Enter number (1 or 2): ");
                 int voteVP = scanner.nextInt();
 
-                voteCounter.castVote(votePresident - 1, voteVP - 1);
-                System.out.println("Vote recorded for Voter #" + voter);
+                voteCounter.castVote(votePresident, voteVP);
             }
 
-            System.out.println("\n=== Voting Results ===");
-            voteCounter.displayResults(presidents, vicePresidents);
-
-        } else if (choice == 2) {
-            // Simulated Voting
+        } else if (mode == 2) {
+            Random rand = new Random();
             System.out.print("Enter number of simulated voters: ");
-            int numVoters = scanner.nextInt();
-
-            Thread[] voters = new Thread[numVoters];
-            for (int i = 0; i < numVoters; i++) {
-                voters[i] = new Thread(new Voter(voteCounter));
-                voters[i].start();
+            int simulatedVoters = scanner.nextInt();
+            for (int i = 0; i < simulatedVoters; i++) {
+                int randomPresVote = rand.nextInt(2) + 1;
+                int randomVPVote = rand.nextInt(2) + 1;
+                voteCounter.castVote(randomPresVote, randomVPVote);
             }
-
-            for (Thread voter : voters) {
-                voter.join();
-            }
-
-            System.out.println("\n=== Simulated Voting Results ===");
-            voteCounter.displayResults(presidents, vicePresidents);
-
+            System.out.println(simulatedVoters + " votes have been simulated.");
         } else {
-            System.out.println("Invalid choice.");
+            System.out.println("Invalid mode selected.");
         }
 
+        voteCounter.displayResults(presidents, vicePresidents);
         scanner.close();
     }
 }

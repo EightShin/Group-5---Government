@@ -1,26 +1,26 @@
+public class VoteCounter {
+    private int[] presidentVotes = new int[2];
+    private int[] vicePresidentVotes = new int[2];
 
-public class VoteCounter implements VoteProcessor {
-    private final int[] presidentVotes = new int[2];
-    private final int[] vicePresidentVotes = new int[2];
-
-    @Override
-    public synchronized void castVote(int choicePresident, int choiceVicePresident) {
-        if (choicePresident >= 0 && choicePresident < presidentVotes.length) {
-            presidentVotes[choicePresident]++;
+    public void castVote(int presIndex, int vpIndex) {
+        if (presIndex >= 1 && presIndex <= 2) {
+            presidentVotes[presIndex - 1]++;
         }
-
-        if (choiceVicePresident >= 0 && choiceVicePresident < vicePresidentVotes.length) {
-            vicePresidentVotes[choiceVicePresident]++;
+        if (vpIndex >= 1 && vpIndex <= 2) {
+            vicePresidentVotes[vpIndex - 1]++;
         }
     }
 
-    public void displayResults(President[] presidents, VicePresident[] vicePresidents) {
-        System.out.println("\nVote Results:");
-        for (int i = 0; i < presidentVotes.length; i++) {
-            System.out.println("President " + (i + 1) + ": " + presidentVotes[i] + " vote(s)");
+    public void displayResults(CandidateList<President> presidents, CandidateList<VicePresident> vicePresidents) {
+        System.out.println("\n=== Voting Results ===");
+        System.out.println("President Votes:");
+        for (int i = 0; i < presidents.size(); i++) {
+            System.out.println(presidents.get(i).getName() + ": " + presidentVotes[i]);
         }
-        for (int i = 0; i < vicePresidentVotes.length; i++) {
-            System.out.println("Vice President " + (i + 1) + ": " + vicePresidentVotes[i] + " vote(s)");
+
+        System.out.println("\nVice President Votes:");
+        for (int i = 0; i < vicePresidents.size(); i++) {
+            System.out.println(vicePresidents.get(i).getName() + ": " + vicePresidentVotes[i]);
         }
     }
 }
