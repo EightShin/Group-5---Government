@@ -4,10 +4,10 @@ O1 - classes, objects, methods (Done)
 02 - inheritance and interface (Done)
 03 - Exception handling (Not yet)
 04 - Filez Input, and Output (Not yet)
-05 - Enumeration and nested classes (Not yet)
-06 - Regular Expressions (Not yet)
+05 - Enumeration and nested classes (Done)
+06 - Regular Expressions (Done)
 07 - Concurrency (Done)
-07 - Generics (Not yet)
+07 - Generics (Done)
 
 Programs Code Flow:
 1. Start Program
