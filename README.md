@@ -23,3 +23,5 @@ Programs Code Flow:
     ・User input how many voters is going to be simulated.
     ・then randomly cast votes on both category which is president/vice president.
 5. Vote Counting and Display
+
+What We need Exception handling and File System (Export a Text.file).
