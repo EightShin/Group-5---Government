@@ -1,88 +1,89 @@
-import java.util.Random;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 public class Gov {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Pattern namePattern = Pattern.compile("^[A-Za-z ]+$");
 
         // Create President candidates
-        President[] presidentArray = new President[2];
+        President[] presidents = new President[2];
         System.out.println("=== Enter President Candidates ===");
         for (int i = 0; i < 2; i++) {
-            String name;
-            while (true) {
-                System.out.print("President " + (i + 1) + ": ");
-                name = scanner.nextLine();
-                if (namePattern.matcher(name).matches()) break;
-                System.out.println("Invalid name. Please enter letters only.");
-            }
-            presidentArray[i] = new President(name);
+            System.out.print("President " + (i + 1) + ": ");
+            String name = scanner.nextLine();
+            presidents[i] = new President(name);
         }
 
         // Create Vice President candidates
-        VicePresident[] vpArray = new VicePresident[2];
+        VicePresident[] vicePresidents = new VicePresident[2];
         System.out.println("\n=== Enter Vice President Candidates ===");
         for (int i = 0; i < 2; i++) {
-            String name;
-            while (true) {
-                System.out.print("Vice President " + (i + 1) + ": ");
-                name = scanner.nextLine();
-                if (namePattern.matcher(name).matches()) break;
-                System.out.println("Invalid name. Please enter letters only.");
-            }
-            vpArray[i] = new VicePresident(name);
+            System.out.print("Vice President " + (i + 1) + ": ");
+            String name = scanner.nextLine();
+            vicePresidents[i] = new VicePresident(name);
         }
-
-        CandidateList<President> presidents = new CandidateList<>(presidentArray);
-        CandidateList<VicePresident> vicePresidents = new CandidateList<>(vpArray);
 
         VoteCounter voteCounter = new VoteCounter();
 
-        // Voting Mode
-        System.out.println("\n=== Voting Mode ===");
-        System.out.println("1. Manual Voting");
+        System.out.println("\nChoose voting mode:");
+        System.out.println("1. Manual Voting (5 voters)");
         System.out.println("2. Simulated Voting");
-        System.out.print("Choose an option: ");
+        System.out.print("Enter option (1 or 2): ");
         int mode = scanner.nextInt();
+        scanner.nextLine(); // consume newline
 
         if (mode == 1) {
-            for (int i = 0; i < 5; i++) {
-                System.out.println("\nVoter #" + (i + 1));
+            // Manual voting for 5 voters
+            for (int voter = 1; voter <= 5; voter++) {
+                System.out.println("\n=== Voting for Voter #" + voter + " ===");
 
                 System.out.println("Vote for President:");
-                for (int j = 0; j < presidents.size(); j++) {
-                    System.out.println((j + 1) + ". " + presidents.get(j).getName());
+                for (int i = 0; i < presidents.length; i++) {
+                    System.out.println((i + 1) + ". " + presidents[i].getName());
                 }
                 System.out.print("Enter number (1 or 2): ");
                 int votePresident = scanner.nextInt();
 
                 System.out.println("\nVote for Vice President:");
-                for (int j = 0; j < vicePresidents.size(); j++) {
-                    System.out.println((j + 1) + ". " + vicePresidents.get(j).getName());
+                for (int i = 0; i < vicePresidents.length; i++) {
+                    System.out.println((i + 1) + ". " + vicePresidents[i].getName());
                 }
                 System.out.print("Enter number (1 or 2): ");
                 int voteVP = scanner.nextInt();
+                scanner.nextLine(); // consume leftover newline
 
                 voteCounter.castVote(votePresident, voteVP);
-            }
 
-        } else if (mode == 2) {
-            Random rand = new Random();
-            System.out.print("Enter number of simulated voters: ");
-            int simulatedVoters = scanner.nextInt();
-            for (int i = 0; i < simulatedVoters; i++) {
-                int randomPresVote = rand.nextInt(2) + 1;
-                int randomVPVote = rand.nextInt(2) + 1;
-                voteCounter.castVote(randomPresVote, randomVPVote);
+                System.out.println("Vote recorded.\n");
             }
-            System.out.println(simulatedVoters + " votes have been simulated.");
+        } else if (mode == 2) {
+            // Simulated voting
+            System.out.print("Enter number of simulated voters: ");
+            int numSimulated = scanner.nextInt();
+            scanner.nextLine(); // consume newline
+
+            for (int i = 0; i < numSimulated; i++) {
+                int randomPresidentVote = (int) (Math.random() * 2) + 1;
+                int randomVPVote = (int) (Math.random() * 2) + 1;
+                voteCounter.castVote(randomPresidentVote, randomVPVote);
+            }
+            System.out.println(numSimulated + " simulated votes cast.\n");
         } else {
-            System.out.println("Invalid mode selected.");
+            System.out.println("Invalid mode selected. Exiting.");
+            scanner.close();
+            return;
         }
 
-        voteCounter.displayResults(presidents, vicePresidents);
+        // Display vote counts
+        System.out.println("=== Voting Results ===");
+        for (int i = 1; i <= presidents.length; i++) {
+            int count = voteCounter.countVotes(Position.PRESIDENT, i);
+            System.out.println(presidents[i - 1].getName() + " received " + count + " vote(s) for President.");
+        }
+        for (int i = 1; i <= vicePresidents.length; i++) {
+            int count = voteCounter.countVotes(Position.VICE_PRESIDENT, i);
+            System.out.println(vicePresidents[i - 1].getName() + " received " + count + " vote(s) for Vice President.");
+        }
+
         scanner.close();
     }
 }

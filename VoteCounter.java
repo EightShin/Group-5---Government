@@ -1,26 +1,45 @@
-public class VoteCounter {
-    private int[] presidentVotes = new int[2];
-    private int[] vicePresidentVotes = new int[2];
+import java.util.ArrayList;
+import java.util.List;
 
-    public void castVote(int presIndex, int vpIndex) {
-        if (presIndex >= 1 && presIndex <= 2) {
-            presidentVotes[presIndex - 1]++;
+public class VoteCounter {
+    private List<Vote> votes = new ArrayList<>();
+
+    // Nested class to represent a single vote
+    public static class Vote {
+        private final int presidentIndex;
+        private final int vicePresidentIndex;
+
+        public Vote(int presidentIndex, int vicePresidentIndex) {
+            this.presidentIndex = presidentIndex;
+            this.vicePresidentIndex = vicePresidentIndex;
         }
-        if (vpIndex >= 1 && vpIndex <= 2) {
-            vicePresidentVotes[vpIndex - 1]++;
+
+        public int getPresidentIndex() {
+            return presidentIndex;
+        }
+
+        public int getVicePresidentIndex() {
+            return vicePresidentIndex;
         }
     }
 
-    public void displayResults(CandidateList<President> presidents, CandidateList<VicePresident> vicePresidents) {
-        System.out.println("\n=== Voting Results ===");
-        System.out.println("President Votes:");
-        for (int i = 0; i < presidents.size(); i++) {
-            System.out.println(presidents.get(i).getName() + ": " + presidentVotes[i]);
-        }
+    public void castVote(int presidentChoice, int vicePresidentChoice) {
+        votes.add(new Vote(presidentChoice, vicePresidentChoice));
+    }
 
-        System.out.println("\nVice President Votes:");
-        for (int i = 0; i < vicePresidents.size(); i++) {
-            System.out.println(vicePresidents.get(i).getName() + ": " + vicePresidentVotes[i]);
+    public int countVotes(Position position, int candidateIndex) {
+        int count = 0;
+        for (Vote vote : votes) {
+            if (position == Position.PRESIDENT && vote.getPresidentIndex() == candidateIndex) {
+                count++;
+            } else if (position == Position.VICE_PRESIDENT && vote.getVicePresidentIndex() == candidateIndex) {
+                count++;
+            }
         }
+        return count;
+    }
+
+    public List<Vote> getVotes() {
+        return votes;
     }
 }
