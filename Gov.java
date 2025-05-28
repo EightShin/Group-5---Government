@@ -4,7 +4,7 @@ public class Gov {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Create President candidates
+        // Create President candidate up to 2
         President[] presidents = new President[2];
         System.out.println("=== Enter President Candidates ===");
         for (int i = 0; i < 2; i++) {
@@ -13,7 +13,7 @@ public class Gov {
             presidents[i] = new President(name);
         }
 
-        // Create Vice President candidates
+        // Create Vice President candidates up to 2
         VicePresident[] vicePresidents = new VicePresident[2];
         System.out.println("\n=== Enter Vice President Candidates ===");
         for (int i = 0; i < 2; i++) {
@@ -32,7 +32,7 @@ public class Gov {
         scanner.nextLine(); // consume newline
 
         if (mode == 1) {
-            // Manual voting for 5 voters
+            // Manual voting for 5 voters (Anonymous)
             for (int voter = 1; voter <= 5; voter++) {
                 System.out.println("\n=== Voting for Voter #" + voter + " ===");
 
@@ -56,7 +56,7 @@ public class Gov {
                 System.out.println("Vote recorded.\n");
             }
         } else if (mode == 2) {
-            // Simulated voting
+            // Simulated voting (Based on User input how much voters will be simulated)
             System.out.print("Enter number of simulated voters: ");
             int numSimulated = scanner.nextInt();
             scanner.nextLine(); // consume newline
