@@ -2,14 +2,14 @@ import java.util.Scanner;
 
 public class Gov {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
         // Create President candidate up to 2
         President[] presidents = new President[2];
         System.out.println("=== Enter President Candidates ===");
         for (int i = 0; i < 2; i++) {
             System.out.print("President " + (i + 1) + ": ");
-            String name = scanner.nextLine();
+            String name = sc.nextLine();
             presidents[i] = new President(name);
         }
 
@@ -18,7 +18,7 @@ public class Gov {
         System.out.println("\n=== Enter Vice President Candidates ===");
         for (int i = 0; i < 2; i++) {
             System.out.print("Vice President " + (i + 1) + ": ");
-            String name = scanner.nextLine();
+            String name = sc.nextLine();
             vicePresidents[i] = new VicePresident(name);
         }
 
@@ -28,8 +28,8 @@ public class Gov {
         System.out.println("1. Manual Voting (5 voters)");
         System.out.println("2. Simulated Voting");
         System.out.print("Enter option (1 or 2): ");
-        int mode = scanner.nextInt();
-        scanner.nextLine(); // consume newline
+        int mode = sc.nextInt();
+        sc.nextLine(); // consume newline
 
         if (mode == 1) {
             // Manual voting for 5 voters (Anonymous)
@@ -41,15 +41,15 @@ public class Gov {
                     System.out.println((i + 1) + ". " + presidents[i].getName());
                 }
                 System.out.print("Enter number (1 or 2): ");
-                int votePresident = scanner.nextInt();
+                int votePresident = sc.nextInt();
 
                 System.out.println("\nVote for Vice President:");
                 for (int i = 0; i < vicePresidents.length; i++) {
                     System.out.println((i + 1) + ". " + vicePresidents[i].getName());
                 }
                 System.out.print("Enter number (1 or 2): ");
-                int voteVP = scanner.nextInt();
-                scanner.nextLine(); // consume leftover newline
+                int voteVP = sc.nextInt();
+                sc.nextLine(); // consume leftover newline
 
                 voteCounter.castVote(votePresident, voteVP);
 
@@ -58,8 +58,8 @@ public class Gov {
         } else if (mode == 2) {
             // Simulated voting (Based on User input how much voters will be simulated)
             System.out.print("Enter number of simulated voters: ");
-            int numSimulated = scanner.nextInt();
-            scanner.nextLine(); // consume newline
+            int numSimulated = sc.nextInt();
+            sc.nextLine(); // consume newline
 
             for (int i = 0; i < numSimulated; i++) {
                 int randomPresidentVote = (int) (Math.random() * 2) + 1;
@@ -69,7 +69,7 @@ public class Gov {
             System.out.println(numSimulated + " simulated votes cast.\n");
         } else {
             System.out.println("Invalid mode selected. Exiting.");
-            scanner.close();
+            sc.close();
             return;
         }
 
@@ -84,6 +84,6 @@ public class Gov {
             System.out.println(vicePresidents[i - 1].getName() + " received " + count + " vote(s) for Vice President.");
         }
 
-        scanner.close();
+        sc.close();
     }
 }
