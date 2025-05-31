@@ -22,6 +22,5 @@ Programs Code Flow:
 4. Simulated Voting Mode
     ・User input how many voters is going to be simulated.
     ・then randomly cast votes on both category which is president/vice president.
-5. Vote Counting and Display
+5. Vote Counting and Display the results, then create a text file containing the results.
 
-What We need Exception handling and File System (Export a Text.file).
