@@ -2,8 +2,8 @@ As of Now i just added Scanner And Few Classes, the code dont have Counting vote
 
 O1 - classes, objects, methods (Done)
 02 - inheritance and interface (Done)
-03 - Exception handling (Not yet)
-04 - Filez Input, and Output (Not yet)
+03 - Exception handling (Done)
+04 - Filez Input, and Output (Done)
 05 - Enumeration and nested classes (Done)
 06 - Regular Expressions (Done)
 07 - Concurrency (Done)
